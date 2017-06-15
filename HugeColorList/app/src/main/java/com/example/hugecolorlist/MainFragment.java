@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainFragment extends Fragment {
-    private static final int NUMBER_OF_ITEMS = 100000;
+public class MainFragment extends Fragment implements RecyclerViewItemClickListener{
 
+    private static final int NUMBER_OF_ITEMS = 100000;
     private View rootView;
 
     public MainFragment() {
@@ -30,19 +30,31 @@ public class MainFragment extends Fragment {
     }
 
     /**
+     * @see RecyclerViewItemClickListener#onClick(View, int)
+     */
+    @Override
+    public void onClick(View view, int position) {
+
+    }
+
+    /**
      * Setup the recycler view
      */
     private void setupRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.main_list);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MainAdapter());
+        MainAdapter adapter = new MainAdapter();
+        recyclerView.setAdapter(adapter);
+        adapter.setItemClickListener(this);
     }
 
     /**
      * Adapter for the recycler view
      */
     private class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
+
+        private RecyclerViewItemClickListener itemClickListener;
 
         /**
          * @see android.support.v7.widget.RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)
@@ -72,13 +84,31 @@ public class MainFragment extends Fragment {
         }
 
         /**
+         * Set listener for recycler view's item
+         *
+         * @param itemClickListener The listener
+         */
+        public void setItemClickListener(RecyclerViewItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        /**
          * View holder class
          */
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             public TextView textView;
             public ViewHolder(View view) {
                 super(view);
                 textView = (TextView) view.findViewById(R.id.list_item_text);
+                itemView.setOnClickListener(this);
+            }
+
+            /**
+             * @see android.view.View.OnClickListener#onClick(View)
+             */
+            @Override
+            public void onClick(View view) {
+                itemClickListener.onClick(view, getLayoutPosition());
             }
         }
     }
