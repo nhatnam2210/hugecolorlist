@@ -4,12 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * The main activity
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String KEY_FRAGMENT_STATE = "fragment_state";
     private Fragment mainFragment;
 
     /**
-     * @see android.app.Activity#onCreate(Bundle)
+     * @see AppCompatActivity#onCreate(Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @see android.app.Activity#onSaveInstanceState(Bundle)
+     * @see AppCompatActivity#onSaveInstanceState(Bundle)
      * @param outState
      */
     @Override

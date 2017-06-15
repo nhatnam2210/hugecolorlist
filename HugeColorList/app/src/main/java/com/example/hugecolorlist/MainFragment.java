@@ -1,5 +1,6 @@
 package com.example.hugecolorlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,9 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * The main fragment
+ */
 public class MainFragment extends Fragment implements RecyclerViewItemClickListener{
 
-    private static final int NUMBER_OF_ITEMS = 100000;
+    public static final int NUMBER_OF_ITEMS = 100000;
+    public static final String KEY_CLICKED_POSITION = "clicked_position";
+
     private View rootView;
 
     public MainFragment() {
@@ -34,7 +40,7 @@ public class MainFragment extends Fragment implements RecyclerViewItemClickListe
      */
     @Override
     public void onClick(View view, int position) {
-
+        openDetailActivity(position);
     }
 
     /**
@@ -47,6 +53,12 @@ public class MainFragment extends Fragment implements RecyclerViewItemClickListe
         MainAdapter adapter = new MainAdapter();
         recyclerView.setAdapter(adapter);
         adapter.setItemClickListener(this);
+    }
+
+    private void openDetailActivity(int clickedPosition) {
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra(KEY_CLICKED_POSITION, clickedPosition);
+        startActivity(intent);
     }
 
     /**
